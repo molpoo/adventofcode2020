@@ -1,5 +1,6 @@
+package days
+
 import Color.Companion.blue
-import Color.Companion.green
 import Color.Companion.purple
 import Color.Companion.red
 import Color.Companion.white
@@ -16,7 +17,7 @@ abstract class Day(private val day: Int) {
     abstract fun solvePart2(input: List<String>): String
 
     fun solve() {
-        println("\n${red}<Day $day>$white")
+        println("\n${red}<days.Day $day>$white")
         var result : String
 
         val executionTimePartOne = measureTimeMillis {

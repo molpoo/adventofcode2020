@@ -1,3 +1,5 @@
+package days
+
 class Day2 : Day(2) {
 
     override fun solvePart1(input: List<String>): String {

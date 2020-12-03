@@ -1,3 +1,5 @@
+package days
+
 class Day3 : Day(3) {
 
     inner class SlopeRules(val right: Int, val down: Int)

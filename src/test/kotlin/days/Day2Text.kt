@@ -1,3 +1,6 @@
+package days
+
+import days.Day2
 import org.junit.Test
 import kotlin.test.assertEquals
 

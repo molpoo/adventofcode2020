@@ -1,5 +1,8 @@
 import Color.Companion.green
 import Color.Companion.white
+import days.Day1
+import days.Day2
+import days.Day3
 
 fun main() {
     println("${green}{ Advent of Code - 2020 }$white")
