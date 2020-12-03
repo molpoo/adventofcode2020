@@ -14,7 +14,7 @@ abstract class Day(private val day: Int) {
     abstract fun solvePart2(input: List<String>): String
 
     fun solve() {
-        println("\n${red}<days.Day $day>$white")
+        println("\n${red}<Day $day>$white")
         var result: String
 
         val executionTimePartOne = measureTimeMillis {
