@@ -8,9 +8,8 @@ import kotlin.system.measureTimeMillis
 
 abstract class Day(private val day: Int) {
 
-    private val input by lazy {
-        Day::class.java.getResource("/day$day.txt").readText().split("\n")
-    }
+    private val input = Day::class.java.getResource("/day$day.txt").readText().split("\n")
+
 
     abstract fun solvePart1(input: List<String>): String
 
@@ -18,7 +17,7 @@ abstract class Day(private val day: Int) {
 
     fun solve() {
         println("\n${red}<days.Day $day>$white")
-        var result : String
+        var result: String
 
         val executionTimePartOne = measureTimeMillis {
             result = solvePart1(input)
