@@ -1,38 +1,20 @@
 package days
 
 open class DefaultRule(var value: String = "") {
-    protected open fun isOptional(): Boolean = false
-    open fun isValid(): Boolean {
-        return if (isOptional()) true
-        else value.isNotEmpty()
-    }
+    protected open fun isOptional() = false
+    open fun isValid() = isOptional() || value.isNotEmpty()
 }
 
 class RuleByr : DefaultRule() {
-    override fun isValid(): Boolean {
-        if (value.isEmpty()) return false
-
-        val year = value.toInt()
-        return year in 1920..2002
-    }
+    override fun isValid() = value.isNotEmpty() && value.toInt() in 1920..2002
 }
 
 class RuleIyr : DefaultRule() {
-    override fun isValid(): Boolean {
-        if (value.isEmpty()) return false
-
-        val year = value.toInt()
-        return year in 2010..2020
-    }
+    override fun isValid() = value.isNotEmpty() && value.toInt() in 2010..2020
 }
 
 class RuleEyr : DefaultRule() {
-    override fun isValid(): Boolean {
-        if (value.isEmpty()) return false
-
-        val year = value.toInt()
-        return year in 2020..2030
-    }
+    override fun isValid() = value.isNotEmpty() && value.toInt() in 2020..2030
 }
 
 class RuleHgt : DefaultRule() {
@@ -49,26 +31,15 @@ class RuleHgt : DefaultRule() {
 }
 
 class RuleHcl : DefaultRule() {
-    override fun isValid(): Boolean {
-        if (value.isEmpty()) return false
-
-        val matchResult = Regex("^#([a-f0-9]{6})$").find(value)
-        return matchResult != null
-    }
+    override fun isValid() = Regex("^#([a-f0-9]{6})$").matches(value)
 }
 
 class RuleEcl : DefaultRule() {
-    override fun isValid(): Boolean {
-        val acceptedColors = listOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
-        return acceptedColors.contains(value)
-    }
+    override fun isValid() = listOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth").contains(value)
 }
 
 class RulePid : DefaultRule() {
-    override fun isValid(): Boolean {
-        val matchResult = Regex("^(\\d{9})$").find(value)
-        return matchResult != null
-    }
+    override fun isValid() = Regex("^(\\d{9})$").matches(value)
 }
 
 class RuleCid : DefaultRule() {
@@ -79,11 +50,13 @@ class Passport(private val rules: HashMap<String, DefaultRule>) {
 
     fun processData(input: String) {
         input.split(" ")
-            .map { elt ->
-                elt.split(":").let {
-                    rules[it[0]]?.value = it[1]
-                }
-            }
+            .map(::applyData)
+    }
+
+    private fun applyData(data: String) {
+        data.split(":").let {
+            rules[it[0]]?.value = it[1]
+        }
     }
 
     fun isValid(): Boolean {
@@ -101,7 +74,7 @@ class Day4 : Day(4) {
         "hcl" to DefaultRule(),
         "ecl" to DefaultRule(),
         "pid" to DefaultRule(),
-        "cid" to RuleCid(),
+        "cid" to RuleCid()
     )
 
     private fun getDataForPart2(): HashMap<String, DefaultRule> = hashMapOf(
@@ -112,7 +85,7 @@ class Day4 : Day(4) {
         "hcl" to RuleHcl(),
         "ecl" to RuleEcl(),
         "pid" to RulePid(),
-        "cid" to RuleCid(),
+        "cid" to RuleCid()
     )
 
     private fun solve(input: List<String>, getRules: () -> HashMap<String, DefaultRule>): String {
