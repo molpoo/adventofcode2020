@@ -1,70 +1,70 @@
 package days
 
-open class DefaultRule(var value: String = "") {
-    protected open fun isOptional() = false
-    open fun isValid() = isOptional() || value.isNotEmpty()
-}
-
-class RuleByr : DefaultRule() {
-    override fun isValid() = value.isNotEmpty() && value.toInt() in 1920..2002
-}
-
-class RuleIyr : DefaultRule() {
-    override fun isValid() = value.isNotEmpty() && value.toInt() in 2010..2020
-}
-
-class RuleEyr : DefaultRule() {
-    override fun isValid() = value.isNotEmpty() && value.toInt() in 2020..2030
-}
-
-class RuleHgt : DefaultRule() {
-    override fun isValid(): Boolean {
-        if (value.isEmpty()) return false
-
-        val (height, unit) = Regex("^(\\d+)(.+)$").find(value)!!.destructured
-        return when (unit) {
-            "cm" -> height.toInt() in 150..193
-            "in" -> height.toInt() in 59..76
-            else -> false
-        }
-    }
-}
-
-class RuleHcl : DefaultRule() {
-    override fun isValid() = Regex("^#([a-f0-9]{6})$").matches(value)
-}
-
-class RuleEcl : DefaultRule() {
-    override fun isValid() = listOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth").contains(value)
-}
-
-class RulePid : DefaultRule() {
-    override fun isValid() = Regex("^(\\d{9})$").matches(value)
-}
-
-class RuleCid : DefaultRule() {
-    override fun isOptional() = true
-}
-
-class Passport(private val rules: HashMap<String, DefaultRule>) {
-
-    fun processData(input: String) {
-        input.split(" ")
-            .map(::applyData)
-    }
-
-    private fun applyData(data: String) {
-        data.split(":").let {
-            rules[it[0]]?.value = it[1]
-        }
-    }
-
-    fun isValid(): Boolean {
-        return rules.count { it.value.isValid() } == rules.size
-    }
-}
-
 class Day4 : Day(4) {
+
+    open class DefaultRule(var value: String = "") {
+        protected open fun isOptional() = false
+        open fun isValid() = isOptional() || value.isNotEmpty()
+    }
+
+    class RuleByr : DefaultRule() {
+        override fun isValid() = value.isNotEmpty() && value.toInt() in 1920..2002
+    }
+
+    class RuleIyr : DefaultRule() {
+        override fun isValid() = value.isNotEmpty() && value.toInt() in 2010..2020
+    }
+
+    class RuleEyr : DefaultRule() {
+        override fun isValid() = value.isNotEmpty() && value.toInt() in 2020..2030
+    }
+
+    class RuleHgt : DefaultRule() {
+        override fun isValid(): Boolean {
+            if (value.isEmpty()) return false
+
+            val (height, unit) = Regex("^(\\d+)(.+)$").find(value)!!.destructured
+            return when (unit) {
+                "cm" -> height.toInt() in 150..193
+                "in" -> height.toInt() in 59..76
+                else -> false
+            }
+        }
+    }
+
+    class RuleHcl : DefaultRule() {
+        override fun isValid() = Regex("^#([a-f0-9]{6})$").matches(value)
+    }
+
+    class RuleEcl : DefaultRule() {
+        override fun isValid() = listOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth").contains(value)
+    }
+
+    class RulePid : DefaultRule() {
+        override fun isValid() = Regex("^(\\d{9})$").matches(value)
+    }
+
+    class RuleCid : DefaultRule() {
+        override fun isOptional() = true
+    }
+
+    class Passport(private val rules: HashMap<String, DefaultRule>) {
+
+        fun processData(input: String) {
+            input.split(" ")
+                .map(::applyData)
+        }
+
+        private fun applyData(data: String) {
+            data.split(":").let {
+                rules[it[0]]?.value = it[1]
+            }
+        }
+
+        fun isValid(): Boolean {
+            return rules.count { it.value.isValid() } == rules.size
+        }
+    }
 
     private fun getDataForPart1(): HashMap<String, DefaultRule> = hashMapOf(
         "byr" to DefaultRule(),
