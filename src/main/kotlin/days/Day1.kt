@@ -1,6 +1,6 @@
 package days
 
-class Day1 : Day(1) {
+class Day1 : Day(1, "Report Repair") {
 
     override fun solvePart1(input: List<String>): String {
         val inputToInt = input.map(String::toInt)

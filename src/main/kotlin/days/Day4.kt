@@ -1,6 +1,6 @@
 package days
 
-class Day4 : Day(4) {
+class Day4 : Day(4, "Passport Processing") {
 
     open class DefaultRule(var value: String = "") {
         protected open fun isOptional() = false

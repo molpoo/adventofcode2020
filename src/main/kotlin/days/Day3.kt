@@ -1,6 +1,6 @@
 package days
 
-class Day3 : Day(3) {
+class Day3 : Day(3, "Toboggan Trajectory") {
 
     inner class SlopeRules(val right: Int, val down: Int)
     inner class Location(

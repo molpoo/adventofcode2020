@@ -1,6 +1,6 @@
 package days
 
-class Day2 : Day(2) {
+class Day2 : Day(2, "Password Philosophy") {
 
     override fun solvePart1(input: List<String>): String {
         var numberOfPasswordValid = 0

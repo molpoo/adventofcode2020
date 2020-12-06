@@ -6,7 +6,7 @@ import Color.Companion.red
 import Color.Companion.white
 import kotlin.system.measureTimeMillis
 
-abstract class Day(private val day: Int) {
+abstract class Day(private val day: Int, private val name: String) {
 
     internal val input: List<String> = Day::class.java.getResource("/day$day.txt").readText().split("\n")
 
@@ -14,7 +14,7 @@ abstract class Day(private val day: Int) {
     abstract fun solvePart2(input: List<String>): String
 
     fun solve() {
-        println("\n${red}<Day $day>$white")
+        println("\n${red}<Day $day - $name>$white")
         var result: String
 
         val executionTimePartOne = measureTimeMillis {

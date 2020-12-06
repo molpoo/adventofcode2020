@@ -1,16 +1,14 @@
 package days
 
-import kotlin.math.floor
-
 fun IntRange.upperHalf(): IntRange {
-    return this.first..floor(this.last - (this.last - this.first) / 2.0).toInt()
+    return this.first..this.last - ((this.last - this.first) / 2)
 }
 
 fun IntRange.lowerHalf(): IntRange {
     return this.last - (this.last - this.first) / 2..this.last
 }
 
-class Day5 : Day(5) {
+class Day5 : Day(5, "Binary Boarding") {
 
     private fun getSeatIds(input: List<String>): List<Int> {
         return input.flatMap { line ->
