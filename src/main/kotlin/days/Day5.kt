@@ -1,14 +1,14 @@
 package days
 
-fun IntRange.upperHalf(): IntRange {
-    return this.first..this.last - ((this.last - this.first) / 2)
-}
-
-fun IntRange.lowerHalf(): IntRange {
-    return this.last - (this.last - this.first) / 2..this.last
-}
+import java.lang.IllegalArgumentException
 
 class Day5 : Day(5, "Binary Boarding") {
+
+    private fun upperHalf(range: IntRange): IntRange =
+        range.first..range.last - ((range.last - range.first) / 2)
+
+    private fun lowerHalf(range: IntRange): IntRange =
+        range.last - (range.last - range.first) / 2..range.last
 
     private fun getSeatIds(input: List<String>): List<Int> {
         return input.flatMap { line ->
@@ -18,16 +18,18 @@ class Day5 : Day(5, "Binary Boarding") {
             var columnRange = 0..7
 
             rowData.forEach {
-                when (it) {
-                    'F' -> rowRange = rowRange.upperHalf()
-                    'B' -> rowRange = rowRange.lowerHalf()
+                rowRange = when (it) {
+                    'F' -> upperHalf(rowRange)
+                    'B' -> lowerHalf(rowRange)
+                    else -> throw IllegalArgumentException("Not a valid character")
                 }
             }
 
             columnData.forEach {
-                when (it) {
-                    'L' -> columnRange = columnRange.upperHalf()
-                    'R' -> columnRange = columnRange.lowerHalf()
+                columnRange = when (it) {
+                    'L' -> upperHalf(columnRange)
+                    'R' -> lowerHalf(columnRange)
+                    else -> throw IllegalArgumentException("Not a valid character")
                 }
             }
             listOf(rowRange.first * 8 + columnRange.first)
