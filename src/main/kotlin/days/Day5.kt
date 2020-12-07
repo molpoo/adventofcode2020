@@ -46,8 +46,9 @@ class Day5 : Day(5, "Binary Boarding") {
     override fun solvePart2(input: List<String>): String {
         return getSeatIds(input)
             .sorted()
-            .zipWithNext { a, b -> b - a }
-            .first { it != 1 }
+            .zipWithNext()
+            .first { it.second - it.first != 1 }
+            .second
             .minus(1)
             .toString()
     }
