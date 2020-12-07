@@ -37,21 +37,17 @@ class Day5 : Day(5, "Binary Boarding") {
     }
 
     override fun solvePart1(input: List<String>): String {
-        return getSeatIds(input).maxOrNull()!!.toString()
+        return getSeatIds(input)
+            .maxOrNull()
+            ?.toString()
+            ?: ""
     }
 
     override fun solvePart2(input: List<String>): String {
-        val seatIDs = getSeatIds(input).sorted()
-
-        var currentElement = seatIDs.first()
-        return seatIDs
-            .first { seatId ->
-                if ((seatId - currentElement) > 1) true
-                else {
-                    currentElement = seatId
-                    false
-                }
-            }
+        return getSeatIds(input)
+            .sorted()
+            .zipWithNext { a, b -> b - a }
+            .first { it != 1 }
             .minus(1)
             .toString()
     }
